@@ -15,7 +15,10 @@ if(is_null($mb->get_the_value()))
 <input type="radio" name="<?php $mb->the_name(); ?>" value="past"<?php echo $mb->is_value('past')?' checked="checked"':''; ?>/> Catalogue
 
 <?php $mb->the_field('publishing'); ?>
-	<p><input type="checkbox" name="<?php $mb->the_name(); ?>" value="publishing"<?php $mb->the_checkbox_state('publishing'); ?>/> Check if artist is published by stolen <br/></p>
+	<p><input type="checkbox" name="<?php $mb->the_name(); ?>" value="publishing"<?php $mb->the_checkbox_state('publishing'); ?>/> Published by stolen <br/></p>
+	
+	<?php $mb->the_field('management'); ?>
+	<p><input type="checkbox" name="<?php $mb->the_name(); ?>" value="management"<?php $mb->the_checkbox_state('management'); ?>/> Managed by Stolen <br/></p>
 
 	<label>Booking contact </label>
 	<input type="text" name="<?php $metabox->the_name('booking-email'); ?>" value="<?php $metabox->the_value('booking-email'); ?>"/>
