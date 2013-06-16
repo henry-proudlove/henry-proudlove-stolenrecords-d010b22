@@ -996,7 +996,7 @@ function sr_social_links($stolen , $nav)
 			{	
 				$art_link_source = 'Vimeo';
 				
-			}elseif (strpos($artist_link , 'youtu.be') || strpos($video_link , 'youtube.com'))
+			}elseif (strpos($artist_link , 'youtu.be') || strpos($artist_link , 'youtube.com'))
 			{	
 				$art_link_source = 'Youtube';
 				
@@ -1015,9 +1015,14 @@ function sr_social_links($stolen , $nav)
 			}elseif (strpos($artist_link , 'wordpress.com'))
 			{	
 				$art_link_source = 'Wordpress';
+				
 			}elseif (strpos($artist_link , 'flickr.com'))
 			{	
 				$art_link_source = 'Flickr';
+				
+			}elseif (strpos($artist_link , 'instagram.com'))
+			{	
+				$art_link_source = 'Instagram';
 			}else
 			{
 				$art_link_source = 'generic'; 
