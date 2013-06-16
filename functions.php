@@ -694,7 +694,7 @@ $footer_mb = new WPAlchemy_MetaBox(array
 //jquery date-time picker on admin
 
 function load_date_time_picker(){
-	wp_register_script( 'datepicker', get_template_directory_uri() . '/js/jquery-ui-1.8.18.custom.min.js');
+	wp_register_script( 'datepicker', get_template_directory_uri() . '/js/jquery-ui-1.10.3.custom.min.js');
 	wp_enqueue_script( 'datepicker' );
 	
 	wp_register_style('datepicker-css', get_template_directory_uri() . "/css/jquery-ui-1.8.18.custom.css");  
