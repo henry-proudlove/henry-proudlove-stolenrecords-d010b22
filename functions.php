@@ -1990,7 +1990,24 @@ function sr_global_nav()
 			<li><a href="<?php echo get_post_type_archive_link( 'artist' ); ?>" rel="address:<?php echo get_post_type_archive_link( 'artist' ); ?>">Artists</a>
 				<ul class="artists-menu">
 					<?php 
-					$args = array('post_type' => 'artist' , 'posts_per_page' => '-1' , 'orderby' => 'title' , 'order' => 'ASC' , 'meta_key' => '_sr_present-past', 'meta_value' => 'current');
+					$args = array(
+						'post_type' => 'artist' ,
+						'posts_per_page' => '-1' ,
+						'orderby' => 'title' ,
+						'order' => 'ASC',
+						'meta_query' => array(
+							'relation' => 'AND',
+							array(
+								'key' => '_sr_present-past',
+								'value' => 'current',
+								'compare' => 'LIKE'
+							),
+							array(
+								'key' => '_sr_shy',
+								'compare' => 'NOT EXISTS'
+							)
+						)
+					);
 			
 					$art_nav_query = new WP_Query($args);
 					
@@ -2002,8 +2019,7 @@ function sr_global_nav()
 					endif;?>
 					</ul><ul><?php
 					
-					$args['meta_value'] = 'past';
-					
+					$args['meta_query'][0]['value'] = 'past';					
 					$art_nav_query = new WP_Query($args);
 						
 					if ( $art_nav_query->have_posts() ) : ?>

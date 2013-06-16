@@ -14,7 +14,10 @@ if(is_null($mb->get_the_value()))
 
 <input type="radio" name="<?php $mb->the_name(); ?>" value="past"<?php echo $mb->is_value('past')?' checked="checked"':''; ?>/> Catalogue
 
-<?php $mb->the_field('publishing'); ?>
+	<?php $mb->the_field('shy'); ?>
+	<p><input type="checkbox" name="<?php $mb->the_name(); ?>" value="shy"<?php $mb->the_checkbox_state('shy'); ?>/> Don't show in Artists list <br/></p>
+
+	<?php $mb->the_field('publishing'); ?>
 	<p><input type="checkbox" name="<?php $mb->the_name(); ?>" value="publishing"<?php $mb->the_checkbox_state('publishing'); ?>/> Published by stolen <br/></p>
 	
 	<?php $mb->the_field('management'); ?>

@@ -9,7 +9,24 @@ get_header(); ?>
 
 <?php /* Start the Loop */
 	
-	$args = array('post_type' => 'artist' , 'posts_per_page' => '-1' , 'orderby' => 'title' , 'order' => 'ASC' , 'meta_key' => '_sr_present-past', 'meta_value' => 'current');
+	$args = array(
+		'post_type' => 'artist' ,
+		'posts_per_page' => '-1' ,
+		'orderby' => 'title' ,
+		'order' => 'ASC',
+		'meta_query' => array(
+			'relation' => 'AND',
+			array(
+				'key' => '_sr_present-past',
+				'value' => 'current',
+				'compare' => 'LIKE'
+			),
+			array(
+				'key' => '_sr_shy',
+				'compare' => 'NOT EXISTS'
+			)
+		)
+	);
 	
 	$the_query = new WP_Query($args);
 	
@@ -21,7 +38,7 @@ get_header(); ?>
 	
 	endwhile;
 	
-	$args['meta_value'] = 'past';
+	$args['meta_query'][0]['value'] = 'past';			
 	
 	$the_query = new WP_Query($args);
 

@@ -2510,7 +2510,12 @@ wp-caption-text{
 	margin-top: -0.6em;
 }
 
-.single-artist article .entry-header, .page-template-page-about-php article .entry-header, .page-template-page-publishing-php .page .entry-header, .page-template-default .page .entry-header{
+.single-artist article .entry-header,
+.page-template-page-about-php article .entry-header,
+.page-template-page-publishing-php .page .entry-header,
+.page-template-page-management-php .page .entry-header,
+.page-template-default .page .entry-header
+{
 	padding-bottom: 1.45em;
 }
 
@@ -2518,7 +2523,11 @@ wp-caption-text{
 	margin-top: 2em;
 }
 
-.single-artist article, .page-template-page-about-php article, .page-template-page-publishing-php .page, .page-template-default .page{
+.single-artist article,
+.page-template-page-about-php article,
+.page-template-page-publishing-php .page,
+.page-template-page-management-php .page,
+.page-template-default .page{
 	text-align: center;
 }
 
