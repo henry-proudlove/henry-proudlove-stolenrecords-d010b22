@@ -1883,8 +1883,8 @@ background: #da342e;
 	background-clip:content-box;
 	-webkit-background-clip:content-box;
 	background-origin:content-box;
-	height: 21px;
-	width: 30px;
+	height: 24px;
+	width: 32px;
 	padding: 3px 0 4px 0;
 	text-indent: -9000px;
 	transition: none;
@@ -1902,7 +1902,7 @@ background: #da342e;
 }
 
 #follow .ui-state-default #vimeo-tab{
-	background: url('images/vimeo-v.png') no-repeat center center;
+	background: url('images/youtube-logo.png') no-repeat center center;
 }
 
 .tweet-text, .twitter-link{

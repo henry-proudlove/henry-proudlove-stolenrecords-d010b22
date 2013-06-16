@@ -3361,16 +3361,10 @@ jQuery.fn.scPlayerHeight = function(){
 GET LATEST FROM STOLENRECS VIMEO
 */
 
-var apiEndpoint = 'http://vimeo.com/api/v2/';
-var videosCallback = 'setupGallery';
-var vimeoUsername = '3362379';
-
 // Get the user's videos
-$(document).ready(function() {
-	$.getScript(apiEndpoint + vimeoUsername + '/videos.json?callback=' + videosCallback);
-});
 
-function setupGallery(videos) {
+
+/*function setupGallery(videos) {
 
 	// Add the videos to the gallery
 	for (var i = 0; i < 4; i++) {
@@ -3390,7 +3384,7 @@ function setupGallery(videos) {
 		height:"60%",
 		returnFocus : false
 	});
-}
+}*/
 
 /*
 FILTER BUILDER

@@ -478,7 +478,7 @@ function sr_get_releases_list($post_id){
 function sr_get_artist_status($post_ID){
 	$past = get_post_meta($post_ID , '_sr_present-past' , true); 
 	if($past == 'past'){
-		echo 'Past Artist</br>';
+		echo 'Catalogue</br>';
 	};
 	$publish = get_post_meta($post_ID, '_sr_publishing', true);
 	if($publish == 'publishing'){
@@ -753,7 +753,7 @@ function sr_relart_loop_markup(&$artists = array()){
 	if('artist' == get_post_type()){
 		$sr_post_class = get_post_meta(get_the_ID(),'_sr_present-past',TRUE);
 		if ($sr_post_class == 'past'){
-			$meta_blob = '<span class="artist-status">Past Artist</span>'; 
+			$meta_blob = '<span class="artist-status">Catalogue</span>'; 
 		}else{
 			$artist_status = null;
 			$meta_blob = null;
@@ -2269,6 +2269,31 @@ function mytheme_body_class( $class ) {
  return $class;
 }
 add_filter( 'body_class', 'mytheme_body_class' );
+
+function sr_yt_videos(){
+	error_reporting(E_ALL);
+	$feedURL = 'http://gdata.youtube.com/feeds/api/users/stolenrecsvideos/uploads?max-results=4';
+	$sxml = simplexml_load_file($feedURL);
+	$i=0;
+	echo '<div id="latest-videos"><div id="thumbs"><ul class="img-list clearfix">';
+	foreach ($sxml->entry as $entry) {
+		$media = $entry->children('media', true);
+		$watch = (string)$media->group->player->attributes()->url;
+		$thumbnail = (string)$media->group->thumbnail[1]->attributes()->url;
+		?>
+		<li class="vimeo">
+		<a href="<?php echo $watch; ?>" class="lightbox video vimeo red-roll">
+			<img src="<?php echo $thumbnail;?>" alt="<?php echo $media->group->title; ?>" class="media-img" />
+			<div class="info">
+				<h3 class="vid-title"><?php echo $media->group->title; ?></h3>
+				<p class="vid-decription faint"><?php echo $media->group->description; ?></p>
+			</div>
+		</a>
+		</li><?php  
+	}
+	echo '<li><a href="http://vimeo.com/user3362379" class="block red-roll" rel="bookmark">Stolen Records on Youtube</a></li>';
+	echo '</ul></div></div><!--#latest-videos-->';
+}
 
 //END MISC
 ?>
