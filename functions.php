@@ -2150,7 +2150,7 @@ function get_twitter_link($echo = 'true'){
 }
 
 // RSS shotcode
-function sr_latest_tweets(){ ?>
+/*function sr_latest_tweets(){ ?>
 	<div id="twitter"><?php
 include_once(ABSPATH . WPINC . '/feed.php');
 
@@ -2179,10 +2179,106 @@ endif;
     </li>
 </ul>
 	</div>
+<?php }*/
+
+function buildBaseString($baseURI, $method, $params) {
+    $r = array();
+    ksort($params);
+    foreach($params as $key=>$value){
+        $r[] = "$key=" . rawurlencode($value);
+    }
+    return $method."&" . rawurlencode($baseURI) . '&' . rawurlencode(implode('&', $r));
+}
+
+function buildAuthorizationHeader($oauth) {
+    $r = 'Authorization: OAuth ';
+    $values = array();
+    foreach($oauth as $key=>$value)
+        $values[] = "$key=\"" . rawurlencode($value) . "\"";
+    $r .= implode(', ', $values);
+    return $r;
+}
+
+function returnTweet(){
+    $oauth_access_token         = '20189024-ExJ5j0sXIjFWHJOhA0aFTnqBJO2BO7MMzieRmmEzY';
+    $oauth_access_token_secret  = 'GsFScpdXSMjawWvqkYhN8Uj5Z5ISqEr0YiJ7p7f0Zas';
+    $consumer_key               = 'ZgTlXHQmjNTYax1d2IWw';
+    $consumer_secret            = 'ZbmfDlB7XUKjMSOTSmjPGwT2vOtvdlxBxMt61HYgIXk';
+
+    $twitter_timeline           = "user_timeline";  //  mentions_timeline / user_timeline / home_timeline / retweets_of_me
+
+    //  create request
+        $request = array(
+            'screen_name'       => 'stolenrecs',
+            'count'             => '4'
+        );
+
+    $oauth = array(
+        'oauth_consumer_key'        => $consumer_key,
+        'oauth_nonce'               => time(),
+        'oauth_signature_method'    => 'HMAC-SHA1',
+        'oauth_token'               => $oauth_access_token,
+        'oauth_timestamp'           => time(),
+        'oauth_version'             => '1.0'
+    );
+
+    //  merge request and oauth to one array
+        $oauth = array_merge($oauth, $request);
+
+    //  do some magic
+        $base_info              = buildBaseString("https://api.twitter.com/1.1/statuses/$twitter_timeline.json", 'GET', $oauth);
+        $composite_key          = rawurlencode($consumer_secret) . '&' . rawurlencode($oauth_access_token_secret);
+        $oauth_signature            = base64_encode(hash_hmac('sha1', $base_info, $composite_key, true));
+        $oauth['oauth_signature']   = $oauth_signature;
+
+    //  make request
+        $header = array(buildAuthorizationHeader($oauth), 'Expect:');
+        $options = array( CURLOPT_HTTPHEADER => $header,
+                          CURLOPT_HEADER => false,
+                          CURLOPT_URL => "https://api.twitter.com/1.1/statuses/$twitter_timeline.json?". http_build_query($request),
+                          CURLOPT_RETURNTRANSFER => true,
+                          CURLOPT_SSL_VERIFYPEER => false);
+
+        $feed = curl_init();
+        curl_setopt_array($feed, $options);
+        $json = curl_exec($feed);
+        curl_close($feed);
+
+    return json_decode($json, true);
+}
+
+
+function sr_latest_tweets(){ ?>
+	<div id="twitter">
+	<?php
+		$tweets = returnTweet();
+		$tweetcount = count($tweets);
+	?>
+	<ul class="txt-list">
+			<?php 
+			if ($tweetcount == 0) :
+				echo '<li>No items.</li>';
+			else:
+				foreach ( $tweets as $tweet ) : 
+					$time = relativeTime(strtotime($tweet['created_at']), 86400 , 'r');
+					$tweet_text = make_clickable( esc_html( $tweet['text'] ));
+					?>
+					<li class="tweet block">
+						<time class="date tweet"><?php echo $time ?></time>
+						<span class="tweet-text"><?php echo $tweet_text; ?></span>
+					</li>
+				<?php endforeach; ?>
+					<li class="">
+						<a href="https://twitter.com/stolenrecs" class="twitter-link red-roll block" rel="bookmark" >Follow @stolenrecs on Twitter</a>
+					</li> <?php
+			endif; ?>
+		</ul>
+		
+	</div>
 <?php }
 
 //Relative Time
-function relativeTime($time = false, $limit = 86400, $format = 'g:i A M jS') {
+function relativeTime($time = false, $limit = 86400, $format = 'r') {
 	if (empty($time) || (!is_string($time) && !is_numeric($time))) $time = time();
 	elseif (is_string($time)) $time = strtotime($time);
 	
