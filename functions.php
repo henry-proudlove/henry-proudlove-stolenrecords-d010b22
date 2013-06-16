@@ -2007,7 +2007,7 @@ function sr_global_nav()
 					$art_nav_query = new WP_Query($args);
 						
 					if ( $art_nav_query->have_posts() ) : ?>
-						<lh class="past-artist-header">past artists</lh>
+						<lh class="past-artist-header">Catalogue</lh>
 					<?php while ( $art_nav_query->have_posts() ) : $art_nav_query->the_post(); ?>
 						<li><a href="<?php the_permalink(); ?>" class="art-nav-link" rel="address:<?php the_permalink(); ?>"><?php the_title(); ?></a></li> 
 					<?php endwhile;endif; wp_reset_query(); ?>

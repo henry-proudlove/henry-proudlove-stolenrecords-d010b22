@@ -20,7 +20,7 @@ get_header(); ?>
 					$artist = get_the_title();
 					$artist_status = get_post_meta(get_the_ID(),'_sr_present-past',TRUE);
 					if ($artist_status == 'past'){
-						echo '<h2 class="artist-status">Past Artist</h2>'; 
+						echo '<h2 class="artist-status">Catalogue</h2>'; 
 					}?>
 				</header><!-- .entry-header -->
 				<div class="slider-wrap">
